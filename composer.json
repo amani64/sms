@@ -1,0 +1,29 @@
+{
+    "name": "amani64/sms",
+    "description": "Laravel SMS package",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Akbar Amani",
+            "email": "amania1364@gmail.com"
+        }
+    ],
+    "require": {
+        "kavenegar/php": "1.2.1"
+    },
+    "autoload": {
+        "classmap": [
+        ],
+        "psr-4": {
+            "Amani64\\SMS\\": "amani64/sms/src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Amani64\\SMS\\SMSServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev"
+}
