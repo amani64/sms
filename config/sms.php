@@ -2,5 +2,5 @@
 
 return [
     'driver' => 'isms',
-    'log_response' => false
+    'log_response' => true
 ];

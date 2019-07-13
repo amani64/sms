@@ -16,11 +16,12 @@ class SMSServiceProvider extends ServiceProvider
     {
         $this->loadMigrationsFrom(__DIR__.'/database/migrations');
         $this->publishes([
-            __DIR__.'/config/sms.php' => config_path('sms.php'),
-            __DIR__.'/config/isms.php' => config_path('isms.php'),
-            __DIR__.'/config/kavenegar.php' => config_path('kavenegar.php'),
-            __DIR__.'/database/migrations/2019_07_13_113759_create_sms_log_table.php' => base_path('database/migrations/2019_07_13_113759_create_sms_log_table.php'),
-        ]);
+            __DIR__ . '/../config/' => config_path(),
+        ], 'config');
+
+        $this->publishes([
+            __DIR__ . '/../database/migrations/' => database_path('migrations')
+        ], 'migrations');
     }
 
     /**
