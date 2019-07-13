@@ -15,7 +15,7 @@
         "classmap": [
         ],
         "psr-4": {
-            "Amani64\\SMS\\": "amani64/sms/src/"
+            "Amani64\\SMS\\": "src/"
         }
     },
     "extra": {
