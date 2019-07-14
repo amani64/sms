@@ -15,3 +15,9 @@
 
 ## Usage: 
 `SMS::send(mobiles,message);`
+
+## supported SMS service
+
+Kavenegar
+ISMS
+Candoo
