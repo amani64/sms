@@ -18,6 +18,6 @@
 
 ## supported SMS service
 
-Kavenegar
-ISMS
-Candoo
+- Kavenegar
+- ISMS
+- Candoo
