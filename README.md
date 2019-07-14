@@ -13,6 +13,13 @@
 ## migrate
 `php artisan migrate`
 
+## Set driver
+in config/sms.php
+`'driver' => 'isms'`
+<br >
+and for saving sent sms into database set `log_response` to `true`
+`'log_response' => true`
+
 ## Usage: 
 `SMS::send(mobiles,message);`
 
