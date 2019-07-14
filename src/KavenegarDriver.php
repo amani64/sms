@@ -3,6 +3,7 @@
 namespace Amani64\SMS;
 
 
+use Amani64\SMS\Models\SMSLog;
 use GuzzleHttp\Client;
 
 class KavenegarDriver implements SMSInterface
@@ -31,19 +32,29 @@ class KavenegarDriver implements SMSInterface
         $this->url = config('kavenegar.api_url');
         $this->apiUrl = sprintf($this->url, $this->apiKey, config('kavenegar.base'), $this->method);
 
+        $logData = [
+            'driver' => 'kavenegar',
+            'message' => $data['message'],
+            'mobiles' => json_encode($data['receptor']),
+        ];
+
         $client = new Client(); //GuzzleHttp\Client
         $response = $client->post($this->apiUrl, [
             'form_params' => $data
         ]);
 
         if ($response->getBody()) {
+            $logData['response'] = $response->getBody()->getContents();
             $response = json_decode($response->getBody()->getContents());
-            //تایید شد
+            $logData['status'] = 'Failed';
+
             if ($response->return->status == 200 && $response->return->message == 'تایید شد') {
-                return true;
+                $logData['status'] = 'Send';
             }
         }
-        throw new \Exception('Problem in sending SMS.', 404);
+        if (config('sms.log_response')) {
+            SMSLog::create($logData);
+        }
     }
 
     public function send(string $to, string $message, string $type, string $sender=null)
