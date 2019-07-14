@@ -15,9 +15,11 @@
 
 ## Set driver
 in config/sms.php
+<br >
 `'driver' => 'isms'`
 <br >
 and for saving sent sms into database set `log_response` to `true`
+<br >
 `'log_response' => true`
 
 ## Usage: 
