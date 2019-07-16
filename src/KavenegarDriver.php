@@ -28,33 +28,38 @@ class KavenegarDriver implements SMSInterface
 
     public function handle($data)
     {
-        $this->apiKey = config('kavenegar.api_key');
-        $this->url = config('kavenegar.api_url');
-        $this->apiUrl = sprintf($this->url, $this->apiKey, config('kavenegar.base'), $this->method);
+        try {
+            $this->apiKey = config('kavenegar.api_key');
+            $this->url = config('kavenegar.api_url');
+            $this->apiUrl = sprintf($this->url, $this->apiKey, config('kavenegar.base'), $this->method);
 
-        $logData = [
-            'driver' => 'kavenegar',
-            'message' => $data['message'],
-            'mobiles' => json_encode($data['receptor']),
-        ];
+            $logData = [
+                'driver' => 'kavenegar',
+                'message' => $data['message'],
+                'mobiles' => json_encode($data['receptor']),
+            ];
 
-        $client = new Client(); //GuzzleHttp\Client
-        $response = $client->post($this->apiUrl, [
-            'form_params' => $data
-        ]);
+            $client = new Client(); //GuzzleHttp\Client
+            $response = $client->post($this->apiUrl, [
+                'form_params' => $data
+            ]);
 
-        if ($response->getBody()) {
-            $logData['response'] = $response->getBody()->getContents();
-            $response = json_decode($response->getBody()->getContents());
-            $logData['status'] = 'Failed';
+            if ($response->getBody()) {
+                $logData['response'] = $response->getBody()->getContents();
+                $response = json_decode($response->getBody()->getContents());
+                $logData['status'] = 'Failed';
 
-            if ($response->return->status == 200 && $response->return->message == 'تایید شد') {
-                $logData['status'] = 'Send';
+                if ($response->return->status == 200 && $response->return->message == 'تایید شد') {
+                    $logData['status'] = 'Send';
+                }
             }
+            if (config('sms.log_response')) {
+                SMSLog::create($logData);
+            }
+        } catch(\Exception $e) {
+            throw new \Exception($e->getMessage(), (int) $e->getCode());
         }
-        if (config('sms.log_response')) {
-            SMSLog::create($logData);
-        }
+
     }
 
     public function send(string $to, string $message, string $type, string $sender=null)

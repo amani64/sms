@@ -56,7 +56,6 @@ class ISMSDriver implements SMSInterface
             $message = !empty($responseData['message']) ? $responseData['message'] : $e->getMessage();
             throw new \Exception('SMS sending error: ' . $message);
         }
-//        throw new \Exception('Problem in sending SMS.', 404);
     }
 
     public function send(string $to, string $message, string $type, string $sender = null)
